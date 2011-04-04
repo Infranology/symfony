@@ -40,6 +40,10 @@ class Locale extends \Locale
      */
     static public function getDisplayCountries($locale)
     {
+        if (self::isStubImplementation()) {
+            return parent::getDisplayCountries($locale);
+        }
+
         if (!isset(self::$countries[$locale])) {
             $bundle = new \ResourceBundle($locale, __DIR__.'/Resources/data/region');
 
@@ -87,6 +91,10 @@ class Locale extends \Locale
      */
     static public function getDisplayLanguages($locale)
     {
+        if (self::isStubImplementation()) {
+            return parent::getDisplayLanguages($locale);
+        }
+
         if (!isset(self::$languages[$locale])) {
             $bundle = new \ResourceBundle($locale, __DIR__.'/Resources/data/lang');
 
@@ -132,6 +140,10 @@ class Locale extends \Locale
      */
     static public function getDisplayLocales($locale)
     {
+        if (self::isStubImplementation()) {
+            return parent::getDisplayLocales($locale);
+        }
+
         if (!isset(self::$locales[$locale])) {
             $bundle = new \ResourceBundle($locale, __DIR__.'/Resources/data/names');
 
@@ -163,5 +175,14 @@ class Locale extends \Locale
     static public function getLocales()
     {
         return array_keys(self::getDisplayLocales(self::getDefault()));
+    }
+
+    /**
+     * Check if the class is a stub implementation
+     * @return bool
+     */
+    static private function isStubImplementation()
+    {
+        return is_subclass_of(__CLASS__, '\Symfony\Component\Locale\Stub\StubLocale');
     }
 }
